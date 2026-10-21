@@ -1,0 +1,617 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.2.0",
+  "engine_sha256": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c",
+  "spec_sha256": "726ddfede0c766210db476f37bf0b8142ce701aff0bcf24979c23dc23c5139ef",
+  "spec": {
+    "claim": "For all real x and y, the square of their sum is non-negative.",
+    "variables": [
+      {
+        "name": "x",
+        "min": "-2",
+        "max": "2",
+        "step": "1/2"
+      },
+      {
+        "name": "y",
+        "min": "-2",
+        "max": "2",
+        "step": "1/2"
+      }
+    ],
+    "assumptions": "",
+    "assertion": "(x+y)**2 >= 0",
+    "confirmed": true
+  },
+  "status": "no_counterexample_in_grid",
+  "conclusion": "The assertion holds at all tested grid points. This is not a proof over a continuous or unbounded domain.",
+  "counts": {
+    "grid_points": 81,
+    "excluded": 0,
+    "tested": 81,
+    "undefined": 0,
+    "violations": 0
+  },
+  "witnesses": [],
+  "issues": [],
+  "samples": [
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-2",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-3/2",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "-1/2",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "0",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/2",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2",
+        "y": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "-2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "-3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "-1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "-1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2",
+        "y": "2"
+      },
+      "holds": true
+    }
+  ],
+  "method": "Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; no random seed.",
+  "limits": [
+    "Only the human-confirmed mathematical statement is checked; natural-language equivalence is not verified.",
+    "Points between grid samples and outside the bounds are not tested.",
+    "A model counterexample is not experimental evidence against a physical law.",
+    "No literature retrieval or experimental measurements were performed."
+  ],
+  "next_steps": [
+    "Refine the grid, widen bounds, or seek a symbolic proof.",
+    "For physical claims, validate units, model applicability, and experimental uncertainty separately."
+  ]
+}

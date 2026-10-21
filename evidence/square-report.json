@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.2.0",
+  "engine_sha256": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c",
+  "spec_sha256": "7235fc86713aac27d251c5099017d6636e5d7330744fd00e7423d020d5da6b7f",
+  "spec": {
+    "claim": "For every non-negative real number x, x squared is at least x.",
+    "variables": [
+      {
+        "name": "x",
+        "min": "0",
+        "max": "2",
+        "step": "1/10"
+      }
+    ],
+    "assumptions": "x >= 0",
+    "assertion": "x**2 >= x",
+    "confirmed": true
+  },
+  "status": "counterexample_found",
+  "conclusion": "The confirmed universal assertion is false at an exact rational witness in this grid.",
+  "counts": {
+    "grid_points": 21,
+    "excluded": 0,
+    "tested": 21,
+    "undefined": 0,
+    "violations": 9
+  },
+  "witnesses": [
+    {
+      "assignment": {
+        "x": "1/10"
+      },
+      "comparisons": [
+        {
+          "expression": "x**2 >= x",
+          "values": [
+            "1/100",
+            "1/10"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "1/100",
+              "operator": "GtE",
+              "right": "1/10",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "x": "1/5"
+      },
+      "comparisons": [
+        {
+          "expression": "x**2 >= x",
+          "values": [
+            "1/25",
+            "1/5"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "1/25",
+              "operator": "GtE",
+              "right": "1/5",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "x": "3/10"
+      },
+      "comparisons": [
+        {
+          "expression": "x**2 >= x",
+          "values": [
+            "9/100",
+            "3/10"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "9/100",
+              "operator": "GtE",
+              "right": "3/10",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "x": "2/5"
+      },
+      "comparisons": [
+        {
+          "expression": "x**2 >= x",
+          "values": [
+            "4/25",
+            "2/5"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "4/25",
+              "operator": "GtE",
+              "right": "2/5",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "x": "1/2"
+      },
+      "comparisons": [
+        {
+          "expression": "x**2 >= x",
+          "values": [
+            "1/4",
+            "1/2"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "1/4",
+              "operator": "GtE",
+              "right": "1/2",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "samples": [
+    {
+      "assignment": {
+        "x": "0"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "1/10"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "1/5"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "3/10"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "2/5"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "1/2"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "3/5"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "7/10"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "4/5"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "9/10"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "x": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "11/10"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "6/5"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "13/10"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "7/5"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "8/5"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "17/10"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "9/5"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "19/10"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "x": "2"
+      },
+      "holds": true
+    }
+  ],
+  "method": "Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; no random seed.",
+  "limits": [
+    "Only the human-confirmed mathematical statement is checked; natural-language equivalence is not verified.",
+    "Points between grid samples and outside the bounds are not tested.",
+    "A model counterexample is not experimental evidence against a physical law.",
+    "No literature retrieval or experimental measurements were performed."
+  ],
+  "next_steps": [
+    "Inspect the witness and assumptions before revising the claim.",
+    "For physical claims, validate units, model applicability, and experimental uncertainty separately."
+  ]
+}

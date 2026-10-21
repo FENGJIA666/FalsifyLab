@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "proposal": {
+    "schema_version": 2,
+    "compiler_version": "0.2.0",
+    "source": {
+      "review": "e746471538b70c33eaf63bb3aef5e931837b62202fb393ff0ca1ccd3f060ef80",
+      "engine": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c"
+    },
+    "raw_claim": "Explicit Euler for y' = -rate*y with rate = 1 does not increase squared amplitude for every real initial y and every h in [0, 3].",
+    "interpretation": {
+      "model": "y' = -rate*y",
+      "method": "explicit Euler",
+      "rate": "1",
+      "property": "one-step non-expansion of squared amplitude",
+      "quantifier": "for every real initial y and every h in the claim interval",
+      "claim_domain": {
+        "h_min": "0",
+        "h_max": "3"
+      },
+      "units": "Dimensionless normalized model only; physical units are not parsed or verified.",
+      "assertion": "(1-(1)*h)**2 <= 1",
+      "reduction": "For nonzero y divide by y². The zero trajectory alone cannot establish a claim about all initial values.",
+      "provenance": "Strict controlled-English grammar; numbers are extracted directly from the original sentence."
+    },
+    "plan": {
+      "search_min": "0",
+      "search_max": "1",
+      "step": "1/4",
+      "grid_points": 5,
+      "boundary_probes": [
+        "0",
+        "1"
+      ],
+      "budget": 10000,
+      "method": "Exact rational grid plus theory-guided boundary probes within the search interval.",
+      "rationale": "Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides. These are known analytical landmarks, not discovered theorems.",
+      "outside_claim_policy": "Record as exploration only; never count as a counterexample to the claim."
+    },
+    "digest": "1303774a3abde77132738a56107ef418d6cea21ca82ce723140bd28b61e228cf"
+  },
+  "confirmed_digest": "1303774a3abde77132738a56107ef418d6cea21ca82ce723140bd28b61e228cf",
+  "parent": null,
+  "parent_id": null,
+  "grid": {
+    "status": "no_counterexample_in_searched_points",
+    "counts": {
+      "evaluated": 5,
+      "in_claim": 5,
+      "violations": 0,
+      "outside_claim": 0,
+      "outside_violations": 0
+    },
+    "witnesses": [],
+    "outside_exploration": [],
+    "samples": [
+      {
+        "h": "0",
+        "in_claim": true,
+        "holds": true
+      },
+      {
+        "h": "1/4",
+        "in_claim": true,
+        "holds": true
+      },
+      {
+        "h": "1/2",
+        "in_claim": true,
+        "holds": true
+      },
+      {
+        "h": "3/4",
+        "in_claim": true,
+        "holds": true
+      },
+      {
+        "h": "1",
+        "in_claim": true,
+        "holds": true
+      }
+    ],
+    "coverage": "Only listed finite points inside the claim interval count as claim evidence. Search interval is not continuous coverage."
+  },
+  "analysis": {
+    "status": "refuted_by_analytic_witness",
+    "coverage": "entire confirmed closed claim interval",
+    "domain": {
+      "h_min": "0",
+      "h_max": "3"
+    },
+    "condition": "0 <= rate*h <= 2",
+    "derivation": "y_next=(1-rate*h)y; y_next²-y²=rate*h*(rate*h-2)*y². With rate>0 and h>=0 this is nonpositive for all real y exactly when rate*h<=2.",
+    "verification": "Independent integer comparison of a*c and 2*b*d for rate=a/b and upper h=c/d.",
+    "threshold": "2",
+    "witness": {
+      "rate": "1",
+      "h": "3",
+      "initial_y": "1",
+      "next_y": "-2",
+      "squared_before": "1",
+      "squared_after": "4",
+      "squared_difference": "3"
+    },
+    "caveat": "This is a known result for this constant scalar model, not a general symbolic theorem prover. At rate*h=2 amplitude is preserved while sign alternates; non-expansion is not strict decay or physical validity."
+  },
+  "limits": [
+    "Reviewed means the procedure ran; it does not mean the original claim passed.",
+    "Grid evidence and the independent analytical condition have separate coverage. A local passing search may coexist with a full-domain analytical refutation; disagreement at the same point aborts the review.",
+    "Rational grids can miss irrational isolated counterexamples, e.g. x² != 2; refining a rational grid cannot fix that.",
+    "No experiments or literature retrieval. The strict grammar accepts only the documented Euler claim form.",
+    "Content hashes detect inconsistency; they are not signatures, identity verification, or proof of human approval."
+  ],
+  "review_id": "e64406800d5608f6d7261d09c44517cefd56f7aa86e87e4d5b1f298005de966a"
+}

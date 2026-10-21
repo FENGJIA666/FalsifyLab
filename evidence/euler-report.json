@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.2.0",
+  "engine_sha256": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c",
+  "spec_sha256": "8cd6f34a5b54bf1c5a002c2bb3971f104e95aa9bdc95912908c83f0fc1103e8b",
+  "spec": {
+    "claim": "For the normalized decay equation y\u2032 = \u2212y with y = 1, one explicit Euler step never increases squared amplitude for any positive step h.",
+    "variables": [
+      {
+        "name": "h",
+        "min": "0",
+        "max": "3",
+        "step": "1/4"
+      }
+    ],
+    "assumptions": "h > 0",
+    "assertion": "(1-h)**2 <= 1",
+    "confirmed": true
+  },
+  "status": "counterexample_found",
+  "conclusion": "The confirmed universal assertion is false at an exact rational witness in this grid.",
+  "counts": {
+    "grid_points": 13,
+    "excluded": 1,
+    "tested": 12,
+    "undefined": 0,
+    "violations": 4
+  },
+  "witnesses": [
+    {
+      "assignment": {
+        "h": "9/4"
+      },
+      "comparisons": [
+        {
+          "expression": "(1-h)**2 <= 1",
+          "values": [
+            "25/16",
+            "1"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "25/16",
+              "operator": "LtE",
+              "right": "1",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "h": "5/2"
+      },
+      "comparisons": [
+        {
+          "expression": "(1-h)**2 <= 1",
+          "values": [
+            "9/4",
+            "1"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "9/4",
+              "operator": "LtE",
+              "right": "1",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "h": "11/4"
+      },
+      "comparisons": [
+        {
+          "expression": "(1-h)**2 <= 1",
+          "values": [
+            "49/16",
+            "1"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "49/16",
+              "operator": "LtE",
+              "right": "1",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    },
+    {
+      "assignment": {
+        "h": "3"
+      },
+      "comparisons": [
+        {
+          "expression": "(1-h)**2 <= 1",
+          "values": [
+            "4",
+            "1"
+          ],
+          "holds": false,
+          "steps": [
+            {
+              "left": "4",
+              "operator": "LtE",
+              "right": "1",
+              "holds": false
+            }
+          ],
+          "skipped_operands": []
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "samples": [
+    {
+      "assignment": {
+        "h": "1/4"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "1/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "3/4"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "1"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "5/4"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "3/2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "7/4"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "2"
+      },
+      "holds": true
+    },
+    {
+      "assignment": {
+        "h": "9/4"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "h": "5/2"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "h": "11/4"
+      },
+      "holds": false
+    },
+    {
+      "assignment": {
+        "h": "3"
+      },
+      "holds": false
+    }
+  ],
+  "method": "Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; no random seed.",
+  "limits": [
+    "Only the human-confirmed mathematical statement is checked; natural-language equivalence is not verified.",
+    "Points between grid samples and outside the bounds are not tested.",
+    "A model counterexample is not experimental evidence against a physical law.",
+    "No literature retrieval or experimental measurements were performed."
+  ],
+  "next_steps": [
+    "Inspect the witness and assumptions before revising the claim.",
+    "For physical claims, validate units, model applicability, and experimental uncertainty separately."
+  ]
+}
