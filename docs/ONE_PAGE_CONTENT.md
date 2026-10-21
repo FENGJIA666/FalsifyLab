@@ -26,4 +26,4 @@ Built during October 21-22, 2026: a local rational-search workbench, followed by
 
 For this scalar model, non-expansion holds exactly when 0 <= rate*h <= 2. At the upper boundary, sign alternates and amplitude is unchanged; this is not strict decay. A passing rational grid is not proof and cannot hit isolated irrational counterexamples. JSON/Markdown reports retain the confirmed input, exact evidence, source fingerprints and revision chain; saved browser reports replay locally. Hashes check consistency, not human identity or approval.
 
-The prototype runs locally with Python and a browser, without external service credentials. It supports only the documented claim grammar, is not a general theorem prover, and does not perform physical experiments or establish model validity. Submission status is tracked separately.
+The prototype runs locally with Python and a browser, without external service credentials. It supports only the documented claim grammar, is not a general theorem prover, and does not perform physical experiments or establish model validity.
