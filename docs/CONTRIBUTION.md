@@ -16,4 +16,4 @@ A learner or scientific-computing developer can inspect a claim before running i
 
 ## Limitations relevant to judging
 
-The model family is deliberately narrow. Rational-grid search misses isolated irrational witnesses. Analytical coverage is specific to the stated scalar Euler property. Results do not establish physical-model validity. Impact and novelty must be assessed by judges; local correctness and format compliance do not establish competitive superiority. Submission status is tracked separately.
+The model family is deliberately narrow. Rational-grid search misses isolated irrational witnesses. Analytical coverage is specific to the stated scalar Euler property. Results do not establish physical-model validity. Impact and novelty must be assessed by judges; local correctness and format compliance do not establish competitive superiority.

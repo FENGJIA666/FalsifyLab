@@ -38,4 +38,4 @@ The local review passed 42 saved tests and report replay, with independent arith
 
 Built during October 21–22, 2026: a rational-search workbench and focused review workflow combining confirmation, coverage separation, retained revisions and replay. Euler mathematics is established background. Intended users are scientific-computing learners and developers checking assumptions. No research time savings, experimental results, first-of-its-kind capability or superiority are claimed. See [contribution](docs/CONTRIBUTION.md) and [one-page description](docs/ONE_PAGE_CONTENT.md).
 
-The delivered application uses Python's standard library; Node is a test dependency only. No Valency, Adaption or marimo integration is present. Submission status is tracked separately.
+The delivered application uses Python's standard library; Node is a test dependency only. No Valency, Adaption or marimo integration is present.

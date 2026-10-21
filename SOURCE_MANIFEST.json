@@ -1,11 +1,11 @@
 {
   "README.md": {
-    "bytes": 3072,
-    "sha256": "710416ef608dc818f85830024361388c808a7cd5fa42446be4d8b2d0bd57fea7"
+    "bytes": 3031,
+    "sha256": "95a93b81962a98532e370f9b6543e05c5e6b005a66513db1204ccf0385d80a27"
   },
   "docs/CONTRIBUTION.md": {
-    "bytes": 2305,
-    "sha256": "2dad740e0ee62e861a7d6c034980c13df690a9e8a0e5f635dfb7b10b38050a4c"
+    "bytes": 2264,
+    "sha256": "11aac93ee3b7e1173bcb377e3640254bf75a1876b06675d455a11470df8fc5a4"
   },
   "docs/ONE_PAGE_CONTENT.md": {
     "bytes": 2790,
@@ -76,8 +76,8 @@
     "sha256": "a399e8c07ea330d59bd36737929457530f88788b4fb58914a77b0272d7fc43a1"
   },
   "static/style.css": {
-    "bytes": 7048,
-    "sha256": "329554b8d333ebfbb211271d2b3912a7e403ad66de65816ed4ccf219ea380b99"
+    "bytes": 7049,
+    "sha256": "e7212bfa0bbf5eeee969e39a6e2d4767f29b41df1cb1e46de36d0c02cfebadb9"
   },
   "tests/test_engine.py": {
     "bytes": 6077,
