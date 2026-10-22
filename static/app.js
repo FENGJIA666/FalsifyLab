@@ -18,10 +18,10 @@ function invalidate() {
   revision++; compileTicket++; proposal=null;
   $('confirmed').checked=false; $('confirmed').disabled=true;
   $('proposal').hidden=true; $('proposal-empty').hidden=false; $('results').hidden=true;
-  $('state').textContent='Draft'; $('error').textContent=''; $('notice').textContent=''; updateRun();
+  $('state').textContent='Start here'; $('error').textContent=''; $('notice').textContent=''; updateRun();
 }
 for (const id of ['claim','search-min','search-max','step']) $(id).addEventListener('input',invalidate);
-$('confirmed').onchange=()=>{revision++;$('state').textContent=$('confirmed').checked?'Human confirmed':'Proposed';updateRun();};
+$('confirmed').onchange=()=>{revision++;$('state').textContent=$('confirmed').checked?'Plan confirmed':'Plan ready';updateRun();};
 async function post(url,data) {
   const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
   const body=await response.json();
@@ -42,14 +42,14 @@ $('compile').onclick=async()=>{
     proposal=clone(p);const i=p.interpretation,plan=p.plan,fields=$('model-fields');fields.replaceChildren();
     for(const [label,text] of [['Model',`${i.model}; rate = ${i.rate}; ${i.method}`],['Property',i.property],['Quantifier',i.quantifier],['Claim domain',`h ∈ [${i.claim_domain.h_min}, ${i.claim_domain.h_max}]`],['Assertion',i.assertion],['Initial-value reduction',i.reduction],['Units',i.units],['Search interval',`[${plan.search_min}, ${plan.search_max}], step ${plan.step}; ${plan.grid_points} grid points`],['Additional boundary probes',plan.boundary_probes.join(', ')],['Why these probes',plan.rationale],['Outside-claim policy',plan.outside_claim_policy],['Provenance',i.provenance]])field(fields,label,text);
     $('proposal-json').textContent=JSON.stringify(p,null,2);$('source').textContent=JSON.stringify({source:p.source,confirmation_digest:p.digest},null,2);
-    $('proposal').hidden=false;$('proposal-empty').hidden=true;$('confirmed').disabled=false;$('state').textContent='Proposed';
+    $('proposal').hidden=false;$('proposal-empty').hidden=true;$('confirmed').disabled=false;$('state').textContent='Plan ready';
   }catch(error){if(ticket===compileTicket)$('error').textContent=error.message;}
   finally{$('compile').textContent='Compile claim →';updateRun();}
 };
 $('run').onclick=async()=>{
   if(!proposal || !$('confirmed').checked || running)return;
   const frozen=clone(proposal), frozenParent=parent?clone(parent):null, started=revision;
-  running=true;updateRun();$('run').textContent='Reviewing frozen proposal…';$('error').textContent='';
+  running=true;updateRun();$('run').textContent='Generating exact evidence…';$('error').textContent='';
   try {
     const body=await post('/api/review',{proposal:frozen,confirmed_digest:frozen.digest,parent:frozenParent});
     const r=body.report;
@@ -59,10 +59,10 @@ $('run').onclick=async()=>{
     let entry=history.find(item=>item.report.review_id===r.review_id);
     if(!entry){entry={report:clone(r),markdown:body.markdown};history.push(entry);}
     renderHistory();
-    if(revision===started && proposal?.digest===frozen.digest && $('confirmed').checked){show(entry);$('state').textContent='Reviewed';}
-    else $('notice').textContent='An earlier confirmed review was added to session history. Your current draft is preserved.';
+    if(revision===started && proposal?.digest===frozen.digest && $('confirmed').checked){show(entry);$('state').textContent='Evidence ready';}
+    else $('notice').textContent='An earlier confirmed review was added to session history. Your current input is preserved.';
   }catch(error){if(revision===started)$('error').textContent=error.message;else $('notice').textContent=`Earlier review failed: ${error.message}`;}
-  finally{running=false;$('run').textContent='Run confirmed review ↗';updateRun();}
+  finally{running=false;$('run').textContent='Generate exact evidence ↗';updateRun();}
 };
 function paragraph(parentElement,text,className='') {const p=document.createElement('p');p.textContent=text;if(className)p.className=className;parentElement.append(p);return p;}
 function witness(container,w) {
@@ -105,7 +105,7 @@ function renderHistory() {
     const actions=document.createElement('div');actions.className='downloads';for(const [label,fn]of [['View saved review',()=>show(entry)],['Revise this claim',()=>revise(entry)],['Save JSON + parents',()=>download(entry,'json')]]){const button=document.createElement('button');button.textContent=label;button.onclick=fn;actions.append(button);}box.append(actions);$('history').append(box);
   }
 }
-$('new').onclick=()=>{parent=null;invalidate();$('parent-label').textContent='New investigation';$('notice').textContent='The current text is kept as a draft. Existing session history is preserved.';};
+$('new').onclick=()=>{parent=null;invalidate();$('parent-label').textContent='New investigation';$('notice').textContent='Your current claim is ready to explore. Existing session history is preserved.';};
 $('download-json').onclick=()=>{if(selected)download(selected,'json');};
 $('download-md').onclick=()=>{if(selected)download(selected,'md');};
 $('revise').onclick=()=>{if(selected)revise(selected);};

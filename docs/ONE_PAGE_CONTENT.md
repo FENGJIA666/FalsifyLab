@@ -28,4 +28,4 @@ JSON and Markdown exports carry the claim, search plan, exact evidence and revis
 
 ## Why it matters
 
-FalsifyLab turns numerical review into a clear, reproducible process: inspect the assumptions, find exact counterexamples, refine the claim and share the reasoning. It brings numerical stability to life for learners and gives simulation developers a practical way to review their assumptions.
+FalsifyLab turns numerical review into a clear, reproducible process: inspect the assumptions, find exact counterexamples, refine the claim and share the reasoning. It makes the mathematics of numerical stability tangible for learners and equips simulation developers with exact evidence to assess model assumptions: verifiable conclusions, traceable reasoning and reproducible results.

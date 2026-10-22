@@ -8,8 +8,8 @@
     "sha256": "1d35075846c8aad49fb1f48e743bb1cdd33a0bd73653fb291a5258d51280bc90"
   },
   "docs/ONE_PAGE_CONTENT.md": {
-    "bytes": 2204,
-    "sha256": "0ede404e5859f36dc7c51e10ba0ec415b296aa6bcbc13a1a67f13b7b4ce8ea49"
+    "bytes": 2298,
+    "sha256": "9c74a4c0ab5496817a008ec03fb9eb1869cef4d5cc7ad7b9f1c964ddc342fdfc"
   },
   "evidence/v5-browser-original.json": {
     "bytes": 5347,
@@ -60,12 +60,12 @@
     "sha256": "59bd84d5ce4e3724311f4035ec20ef1a93fd6e9c1d7750ea1b70782981be8671"
   },
   "static/app.js": {
-    "bytes": 10844,
-    "sha256": "ee6ae5e37ace88923147d2400c8f678631fc0f625cd7325413926f0d6a666434"
+    "bytes": 10864,
+    "sha256": "2f0f22b8a40baa9f745fb526f55b2dbb05786e8841844cd49f85eca66d6150dd"
   },
   "static/index.html": {
-    "bytes": 5078,
-    "sha256": "26b4c71853718815721c3697b3efc01dfd72f6945468819698aa4161ed9d22e9"
+    "bytes": 5091,
+    "sha256": "b6d6cc435833c26c33cdb35c7c4c833091c95c63aa22b52d8f24f106b7b8c2d2"
   },
   "static/sandbox.html": {
     "bytes": 4750,
