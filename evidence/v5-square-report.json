@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "engine_version": "0.2.0",
-  "engine_sha256": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc",
+  "engine_sha256": "454d35d6d711d80e37fd72c79ef4424c6e4551a0d5dc6c347d94286fecb60f82",
   "spec_sha256": "7235fc86713aac27d251c5099017d6636e5d7330744fd00e7423d020d5da6b7f",
   "spec": {
     "claim": "For every non-negative real number x, x squared is at least x.",
@@ -17,8 +17,8 @@
     "assertion": "x**2 >= x",
     "confirmed": true
   },
-  "status": "counterexample_found",
-  "conclusion": "The confirmed universal assertion is false at an exact rational witness in this grid.",
+  "status": "exact_counterexample_identified",
+  "conclusion": "An exact rational counterexample identifies the assignment that changes the conclusion.",
   "counts": {
     "grid_points": 21,
     "excluded": 0,
@@ -285,7 +285,7 @@
     "Source fingerprints and the saved specification support deterministic replay."
   ],
   "next_steps": [
-    "Inspect the witness and assumptions before revising the claim.",
-    "Export the report to share the evidence and reproduce the search."
+    "Export and replay this evidence.",
+    "Share the exact assignments and reproducible search plan."
   ]
 }

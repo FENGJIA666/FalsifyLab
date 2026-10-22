@@ -60,7 +60,7 @@ $('run').onclick=async()=>{
     if(!entry){entry={report:clone(r),markdown:body.markdown};history.push(entry);}
     renderHistory();
     if(revision===started && proposal?.digest===frozen.digest && $('confirmed').checked){show(entry);$('state').textContent='Reviewed';}
-    else $('notice').textContent='An earlier confirmed review finished and was archived in session history. Your current draft was not changed.';
+    else $('notice').textContent='An earlier confirmed review was added to session history. Your current draft is preserved.';
   }catch(error){if(revision===started)$('error').textContent=error.message;else $('notice').textContent=`Earlier review failed: ${error.message}`;}
   finally{running=false;$('run').textContent='Run confirmed review ↗';updateRun();}
 };
@@ -82,9 +82,9 @@ function show(entry) {
   paragraph(analysis,r.analysis.derivation);paragraph(analysis,`Condition: ${r.analysis.condition}; threshold h = ${r.analysis.threshold}.`);
   if(r.analysis.witness)witness(analysis,r.analysis.witness);
   paragraph(analysis,r.analysis.verification,'hint');paragraph(analysis,r.analysis.boundary_behavior,'hint');comp.append(grid,analysis);
-  $('stats').replaceChildren();for(const [key,value]of Object.entries(r.grid.counts)){const d=document.createElement('div');d.className='stat';const b=document.createElement('b');b.textContent=value;d.append(b,document.createTextNode(key.replaceAll('_',' ')));$('stats').append(d);}
+  $('stats').replaceChildren();for(const [key,value]of Object.entries(r.grid.counts)){const d=document.createElement('div');d.className='stat';const b=document.createElement('b');b.textContent=value;d.append(b,document.createTextNode(({evaluated:'evaluated',in_claim:'claim points',violations:'counterexamples',outside_claim:'exploration points',outside_violations:'exploration witnesses'})[key] || key.replaceAll('_',' ')));$('stats').append(d);}
   $('outside').replaceChildren();if(r.grid.outside_exploration.length)r.grid.outside_exploration.forEach(w=>witness($('outside'),w));else paragraph($('outside'),'Exploration results are recorded with the search plan.','hint');
-  $('trace').replaceChildren();for(const sample of r.grid.samples){const t=document.createElement('span');t.className='tile'+(sample.holds?'':' fail')+(sample.in_claim?'':' outside');t.textContent=sample.in_claim?(sample.holds?'✓':'×'):'○';t.tabIndex=0;t.title=`h=${sample.h}; ${sample.in_claim?'inside':'outside'} claim; assertion ${sample.holds?'holds':'fails'}`;t.setAttribute('aria-label',t.title);$('trace').append(t);}
+  $('trace').replaceChildren();for(const sample of r.grid.samples){const t=document.createElement('span');t.className='tile'+(sample.holds?'':' fail')+(sample.in_claim?'':' outside');t.textContent=sample.in_claim?(sample.holds?'✓':'◆'):'○';t.tabIndex=0;t.title=`h=${sample.h}; ${sample.in_claim?'inside':'outside'} claim; ${sample.holds?'satisfies claim':'counterexample identified'}`;t.setAttribute('aria-label',t.title);$('trace').append(t);}
   $('lineage').replaceChildren();const chain=[];for(let item=r;item;item=item.parent)chain.unshift(item);
   for(const item of chain){const box=document.createElement('div');box.className='history-card';paragraph(box,item===r?'Selected review':'Preserved ancestor','eyebrow');paragraph(box,item.proposal.raw_claim);paragraph(box,`Grid: ${item.grid.status.replaceAll('_',' ')}`);paragraph(box,`Analysis: ${item.analysis.status.replaceAll('_',' ')}`);paragraph(box,`ID ${item.review_id.slice(0,12)}`,'hint');$('lineage').append(box);}
   $('evidence-summary').replaceChildren();for(const item of r.evidence_summary){const li=document.createElement('li');li.textContent=item;$('evidence-summary').append(li);}

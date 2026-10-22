@@ -21,8 +21,8 @@ class EngineTests(unittest.TestCase):
     def test_integer_grid_is_not_proof(self):
         s=case();s['variables'][0]['step']='1'
         r=search(s)
-        self.assertEqual(r['status'],'no_counterexample_in_grid')
-        self.assertEqual(r['conclusion'], 'The assertion holds at all tested grid points.')
+        self.assertEqual(r['status'],'exact_evaluations_recorded')
+        self.assertEqual(r['conclusion'], 'Exact evaluation results are recorded for the selected grid.')
         self.assertEqual(r['counts']['tested'], 3)
 
     def test_euler_boundary_and_repair(self):
@@ -30,7 +30,7 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(r['witnesses'][0]['assignment'],{'h':'9/4'})
         self.assertEqual(r['counts']['violations'],4)
         s['assumptions']='0 < h <= 2'
-        self.assertEqual(search(s)['status'],'no_counterexample_in_grid')
+        self.assertEqual(search(s)['status'],'exact_evaluations_recorded')
 
     def test_two_variables(self):
         r=search(case(2));self.assertEqual(r['counts']['tested'],81)
@@ -50,13 +50,13 @@ class EngineTests(unittest.TestCase):
 
     def test_undefined_not_counterexample(self):
         s=case();s['assertion']='1/x > 0'
-        r=search(s);self.assertEqual(r['status'],'inconclusive')
+        r=search(s);self.assertEqual(r['status'],'evaluation_notes_recorded')
         self.assertEqual(r['counts']['undefined'],1)
         self.assertEqual(r['counts']['violations'],0)
 
     def test_empty_domain(self):
         s=case();s['assumptions']='x > 5'
-        self.assertEqual(search(s)['status'],'empty_domain')
+        self.assertEqual(search(s)['status'],'search_domain_recorded')
 
     def test_exact_decimal(self):
         self.assertTrue(Expression('0.1 + 0.2 == 0.3',[],True).evaluate({}))

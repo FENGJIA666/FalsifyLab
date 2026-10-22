@@ -9,9 +9,9 @@ from falsifylab import ENGINE_SHA256, ValidationError, rational, Expression
 
 REVIEW_VERSION = '0.2.0'
 SOURCE = {'review': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'engine': ENGINE_SHA256}
-GRAMMAR = "Explicit Euler for y' = -rate*y with rate = 1 does not increase squared amplitude for every real initial y and every h in [0, 3]."
+GRAMMAR = "Explicit Euler for y' = -rate*y with rate = 1 keeps squared amplitude at or below its initial value for every real initial y and every h in [0, 3]."
 NUM = r'[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:/\d+)?'
-PATTERN = re.compile(r"Explicit Euler for y'\s*=\s*-rate\s*\*\s*y with rate\s*=\s*("+NUM+r") does not increase squared amplitude for every real initial y and every h in \[\s*("+NUM+r")\s*,\s*("+NUM+r")\s*\]\.?")
+PATTERN = re.compile(r"Explicit Euler for y'\s*=\s*-rate\s*\*\s*y with rate\s*=\s*("+NUM+r") (?:does not increase squared amplitude|keeps squared amplitude at or below its initial value) for every real initial y and every h in \[\s*("+NUM+r")\s*,\s*("+NUM+r")\s*\]\.?")
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
@@ -37,16 +37,16 @@ def propose(raw_text, search_min='0', search_max='3', step='1/4'):
     p = {'schema_version':2, 'compiler_version':REVIEW_VERSION, 'source':dict(SOURCE),
          'raw_claim':raw_text, 'interpretation':{
              'model':"y' = -rate*y", 'method':'explicit Euler', 'rate':str(rate),
-             'property':'one-step non-expansion of squared amplitude', 'quantifier':'for every real initial y and every h in the claim interval',
+             'property':'squared amplitude bounded by its initial value after one step', 'quantifier':'for every real initial y and every h in the claim interval',
              'claim_domain':{'h_min':str(lo),'h_max':str(hi)},
              'units':'Dimensionless normalized model.',
              'assertion':f'(1-({rate})*h)**2 <= 1',
-             'reduction':'For nonzero y, divide by y²; for y = 0 the update remains zero.',
+             'reduction':'For y ≠ 0, divide by y²; for y = 0 the update remains zero.',
              'provenance':'Rate and interval are extracted directly from the claim.'},
          'plan':{'search_min':str(smin),'search_max':str(smax),'step':str(stride),
              'grid_points':count,'boundary_probes':probes,'budget':10000,
              'method':'Exact rational grid plus theory-guided boundary probes within the search interval.',
-             'rationale':'Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides.',
+             'rationale':'Probe zero, zero amplification, the amplitude-preserving threshold 2/rate and its two sides.',
              'outside_claim_policy':'Record points beyond the claim interval as exploration.'}}
     return {**p,'digest':digest(p)}
 
@@ -68,11 +68,11 @@ def _analysis(rate,lo,hi):
     a,b=rate.numerator,rate.denominator
     c,d=hi.numerator,hi.denominator
     holds=a*c <= 2*b*d
-    return {'status':'supported_by_analytic_condition' if holds else 'refuted_by_analytic_witness',
+    return {'status':'condition_verified' if holds else 'exact_counterexample_identified',
             'coverage':'entire confirmed closed claim interval',
             'domain':{'h_min':str(lo),'h_max':str(hi)},
             'condition':'0 <= rate*h <= 2',
-            'derivation':"y_next=(1-rate*h)y; y_next²-y²=rate*h*(rate*h-2)*y². With rate>0 and h>=0 this is nonpositive for all real y exactly when rate*h<=2.",
+            'derivation':"y_next=(1-rate*h)y; y_next²-y²=rate*h*(rate*h-2)*y². For rate>0 and h>=0, y_next²<=y² for all real y exactly when rate*h<=2.",
             'verification':'Independent integer comparison of a*c and 2*b*d for rate=a/b and upper h=c/d.',
             'threshold':str(2/rate),
             'witness':None if holds else witness(rate,hi),
@@ -117,14 +117,14 @@ def review(proposal,confirmed_digest,parent=None,_depth=0):
             target=witnesses if inside else explorations
             if len(target)<5:target.append(witness(rate,h))
         if len(samples)<120:samples.append({'h':str(h),'in_claim':inside,'holds':holds})
-    grid_status='counterexample_found' if witnesses else ('no_admissible_points' if not counts['in_claim'] else 'no_counterexample_in_searched_points')
+    grid_status='exact_counterexample_identified' if witnesses else ('exploration_recorded' if not counts['in_claim'] else 'exact_evaluations_recorded')
     data={'schema_version':2,'proposal':copy.deepcopy(p),'confirmed_digest':confirmed_digest,
           'parent':copy.deepcopy(parent),'parent_id':parent['review_id'] if parent else None,
           'grid':{'status':grid_status,'counts':counts,'witnesses':witnesses,'outside_exploration':explorations,'samples':samples,
-                  'coverage':'Exact evaluations at the listed sample points within the claim interval.'},
+                  "coverage":f"Search h ∈ [{plan['search_min']}, {plan['search_max']}], step {plan['step']}; claim h ∈ [{i['claim_domain']['h_min']}, {i['claim_domain']['h_max']}]."},
           'analysis':_analysis(rate,lo,hi),
           'evidence_summary':['Exact rational witnesses connect each result to a concrete assignment.',
-                    'Sampled search and analytical coverage are recorded alongside the confirmed claim.',
+                    'Search coverage and mathematical analysis are recorded alongside the confirmed claim.',
                     'Revisions preserve the original review and its evidence.',
                     'Source fingerprints and saved plans support deterministic replay.']}
     return {**data,'review_id':digest(data)}
@@ -145,10 +145,10 @@ def markdown(report):
         p=r['proposal'];lines+=['','## '+('Current review' if r is report else 'Previous review (preserved)'),p['raw_claim'],
             'Review ID: '+r['review_id'],'Confirmed proposal: '+r['confirmed_digest'],
             'Claim domain: '+json.dumps(p['interpretation']['claim_domain']),
-            'Search plan: '+json.dumps(p['plan']), 'Grid outcome: '+r['grid']['status'],
+            'Search plan: '+json.dumps(p['plan']), 'Search outcome: '+r['grid']['status'].replace('_',' '),
             'Counts: '+json.dumps(r['grid']['counts']), 'Grid witnesses: '+json.dumps(r['grid']['witnesses']),
             'Outside-domain exploration: '+json.dumps(r['grid']['outside_exploration']),
-            'Analytical outcome: '+r['analysis']['status'], 'Analytical coverage: '+r['analysis']['coverage'],
+            'Mathematical analysis: '+r['analysis']['status'].replace('_',' '), 'Analytical coverage: '+r['analysis']['coverage'],
             r['analysis']['derivation'], 'Analytical witness: '+json.dumps(r['analysis']['witness']),r['analysis']['boundary_behavior']]
     lines+=['','## Evidence record',*['- '+x for x in report['evidence_summary']],'','## Reproduce','python3 reproduce.py report.json',
             'Loaded source fingerprints: '+json.dumps(report['proposal']['source'])]

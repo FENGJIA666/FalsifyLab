@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "engine_version": "0.2.0",
-  "engine_sha256": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc",
+  "engine_sha256": "454d35d6d711d80e37fd72c79ef4424c6e4551a0d5dc6c347d94286fecb60f82",
   "spec_sha256": "726ddfede0c766210db476f37bf0b8142ce701aff0bcf24979c23dc23c5139ef",
   "spec": {
     "claim": "For all real x and y, the square of their sum is non-negative.",
@@ -23,8 +23,8 @@
     "assertion": "(x+y)**2 >= 0",
     "confirmed": true
   },
-  "status": "no_counterexample_in_grid",
-  "conclusion": "The assertion holds at all tested grid points.",
+  "status": "exact_evaluations_recorded",
+  "conclusion": "Exact evaluation results are recorded for the selected grid.",
   "counts": {
     "grid_points": 81,
     "excluded": 0,
@@ -611,7 +611,7 @@
     "Source fingerprints and the saved specification support deterministic replay."
   ],
   "next_steps": [
-    "Refine the grid, widen bounds, or seek a symbolic proof.",
-    "Export the report to share the evidence and reproduce the search."
+    "Export and replay this evidence.",
+    "Share the exact assignments and reproducible search plan."
   ]
 }

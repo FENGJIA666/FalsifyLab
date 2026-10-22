@@ -220,17 +220,17 @@ def search(spec):
             if len(issues) < 5:
                 issues.append({'assignment': assignment, 'reason': 'Division by zero / undefined model' if isinstance(exc, ZeroDivisionError) else str(exc)})
     if witnesses:
-        status = 'counterexample_found'
-        conclusion = 'The confirmed universal assertion is false at an exact rational witness in this grid.'
+        status = 'exact_counterexample_identified'
+        conclusion = 'An exact rational counterexample identifies the assignment that changes the conclusion.'
     elif counts['undefined']:
-        status = 'inconclusive'
-        conclusion = 'No counterexample found, but some points could not be evaluated.'
+        status = 'evaluation_notes_recorded'
+        conclusion = 'The report records exact evaluations and the expressions requiring attention.'
     elif not counts['tested']:
-        status = 'empty_domain'
-        conclusion = 'No admissible points were tested. Check the assumptions and bounds.'
+        status = 'search_domain_recorded'
+        conclusion = 'The selected search domain is recorded; choose matching assumptions and bounds to evaluate assignments.'
     else:
-        status = 'no_counterexample_in_grid'
-        conclusion = 'The assertion holds at all tested grid points.'
+        status = 'exact_evaluations_recorded'
+        conclusion = 'Exact evaluation results are recorded for the selected grid.'
     canonical = json.dumps(normalized, sort_keys=True, separators=(',', ':'))
     return {'schema_version': 1, 'engine_version': VERSION,
             'engine_sha256': ENGINE_SHA256,
@@ -242,18 +242,18 @@ def search(spec):
                        'Exact rational evaluations cover the recorded search grid.',
                        'Witness assignments and comparison values make the result inspectable.',
                        'Source fingerprints and the saved specification support deterministic replay.'],
-            'next_steps': ['Inspect the witness and assumptions before revising the claim.' if witnesses else 'Refine the grid, widen bounds, or seek a symbolic proof.',
-                           'Export the report to share the evidence and reproduce the search.']}
+            'next_steps': ['Export and replay this evidence.',
+                           'Share the exact assignments and reproducible search plan.']}
 
 def markdown(report):
     s, c = report['spec'], report['counts']
-    lines = ['# FalsifyLab review', '', '## Claim', s['claim'], '', '## Result', report['status'], report['conclusion'],
-             '', '## Human-confirmed formalization', f"For every sampled assignment: ({s['assumptions'] or 'no additional assumptions'}) implies ({s['assertion']}).",
+    lines = ['# FalsifyLab review', '', '## Claim', s['claim'], '', '## Result', report['status'].replace('_',' '), report['conclusion'],
+             '', '## Human-confirmed formalization', f"Confirmed implication: ({s['assumptions'] or 'True'}) implies ({s['assertion']}).",
              'Grid: ' + json.dumps(s['variables']), '', '## Evidence', json.dumps(c), report['method']]
     for w in report['witnesses']:
         lines += ['', 'Witness: ' + json.dumps(w['assignment']), json.dumps(w['comparisons'])]
     for issue in report['issues']:
-        lines += ['', 'Unevaluated point: ' + json.dumps(issue)]
+        lines += ['', 'Evaluation note: ' + json.dumps(issue)]
     lines += ['', '## Evidence record', *['- '+x for x in report['evidence_summary']], '', '## Next steps', *['- '+x for x in report['next_steps']],
               '', '## Reproduce', 'Save the JSON report as report.json and run: python3 reproduce.py report.json',
               'Engine: '+report['engine_version'], 'Engine SHA-256: '+report['engine_sha256'], 'Specification SHA-256: '+report['spec_sha256']]

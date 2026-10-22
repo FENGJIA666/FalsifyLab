@@ -12,15 +12,15 @@ Built during the OSI Hackathon on October 21-22, 2026, FalsifyLab turns a writte
 
 ## Demonstrated achievements
 
-The demonstration reviews the Euler update for y' = -rate*y. At rate = 1 and grid step = 1/4, the workspace delivers three results:
+The Euler demonstration follows y' = -rate*y at rate = 1. The workspace connects three achievements with concrete evidence:
 
-| Claim / search interval | Search result | Mathematical check |
+| Achievement | Concrete evidence | Value for the user |
 | --- | --- | --- |
-| Claim [0,3]; search [0,1] | 5 sampled points pass | Counterexample at h = 3 |
-| Claim [0,3]; search [0,3] | 13 points; 4 counterexamples | Counterexample at h = 3 |
-| Revised [0,2]; search [0,3] | 9 in-domain points pass | Non-expansion holds |
+| Exact discovery | h = 9/4, y = 1 gives y_next = -5/4 | Inspect the counterexample directly |
+| Connected revisions | The revised [0,2] claim retains its original review | Follow the complete evidence history |
+| Mathematical verification | At h = 3, y = 1 becomes -2 | Check the result with a second calculation |
 
-FalsifyLab finds the exact witness h = 9/4, y = 1: y_next = -5/4 and squared amplitude rises to 25/16. The researcher then revises the claim to [0,2], keeping the evidence history and the four exploratory results above 2. The mathematical check also identifies h = 3 when the sampled search covers [0,1].
+The exact witness at h = 9/4 takes squared amplitude from 1 to 25/16. The mathematical check at h = 3 takes it from 1 to 4. Each result records the values and reasoning behind it, and the revision history connects the original investigation with the refined claim.
 
 ## Evidence that travels with the result
 

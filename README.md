@@ -14,12 +14,12 @@ Open http://127.0.0.1:8765 . To select another port, run `python3 server.py --po
 
 ## See the achievements
 
-1. Keep the displayed claim with rate 1 and `h` in `[0,3]`; compile, inspect, confirm and run. The search evaluates 13 points and identifies four counterexamples. For `h=9/4` and `y=1`, it finds `y_next=-5/4` and squared amplitude `25/16`.
-2. Revise the claim to `[0,2]`, retaining search `[0,3]`. Nine in-domain points pass, four exploratory results remain visible, and the evidence history stays connected to the revised claim.
-3. Start an investigation with claim `[0,3]` and search `[0,1]`. Five sampled points pass; the mathematical check identifies a counterexample at `h=3`.
+1. Keep the displayed Euler claim with rate 1 and `h` in `[0,3]`; compile, inspect, confirm and run. Inspect the exact counterexample: `h=9/4` and `y=1` give `y_next=-5/4` and squared amplitude `25/16`.
+2. Revise the claim to `[0,2]` and run the review. The workspace connects the revised result to its original investigation and preserves the evidence history.
+3. Inspect the mathematical check: at `h=3` and `y=1`, it computes `y_next=-2` and squared amplitude `4`. The search and mathematical analysis provide complementary evidence.
 4. Export JSON or Markdown. Replay JSON with `python3 reproduce.py path/to/report.json`.
 
-The Euler demonstration connects sampled results with the mathematical condition `0 <= rate*h <= 2`. Reports retain the claim, plan, evidence, source fingerprints and revision history. Export JSON to carry your investigation between sessions.
+Reports retain the claim, plan, exact values, source fingerprints and revision history. Export JSON to carry your investigation between sessions.
 
 ## Verify
 
@@ -27,9 +27,9 @@ Run the engine and browser-script checks with Python and Node.js (`node`):
 
 ```sh
 python3 -m unittest discover -s tests -v
-python3 reproduce.py evidence/v4-browser-original.json
-python3 reproduce.py evidence/v4-browser-revision.json
-python3 reproduce.py evidence/v4-browser-partial.json
+python3 reproduce.py evidence/v5-browser-original.json
+python3 reproduce.py evidence/v5-browser-revision.json
+python3 reproduce.py evidence/v5-browser-partial.json
 ```
 
 The project has passed 42 tests and report replay, with independent arithmetic checks and browser workflow checks.

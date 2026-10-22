@@ -29,26 +29,26 @@ class AdversarialReviewTests(unittest.TestCase):
         self.assertEqual(r['grid']['counts']['violations'], 0)
         self.assertGreater(r['grid']['counts']['outside_violations'], 0)
         self.assertEqual(r['grid']['witnesses'], [])
-        self.assertEqual(r['analysis']['status'], 'supported_by_analytic_condition')
+        self.assertEqual(r['analysis']['status'], 'condition_verified')
         for w in r['grid']['outside_exploration']:
             self.assertGreater(Fraction(w['h']), 1)
 
     def test_local_pass_does_not_overwrite_global_refutation(self):
         r = run(search_max='1')
-        self.assertEqual(r['grid']['status'], 'no_counterexample_in_searched_points')
-        self.assertEqual(r['analysis']['status'], 'refuted_by_analytic_witness')
+        self.assertEqual(r['grid']['status'], 'exact_evaluations_recorded')
+        self.assertEqual(r['analysis']['status'], 'exact_counterexample_identified')
         self.assertEqual(r['analysis']['witness']['h'], '3')
         self.assertEqual(r['analysis']['domain'], {'h_min': '0', 'h_max': '3'})
 
     def test_empty_intersection_is_not_a_grid_pass(self):
         r = run(hi='1', search_min='2', search_max='3')
-        self.assertEqual(r['grid']['status'], 'no_admissible_points')
+        self.assertEqual(r['grid']['status'], 'exploration_recorded')
         self.assertEqual(r['grid']['counts']['in_claim'], 0)
 
     def test_nonexpansion_endpoint_is_not_strict_decay(self):
         r = run(lo='2', hi='2', search_min='2', search_max='2')
         self.assertEqual(r['grid']['counts']['violations'], 0)
-        self.assertEqual(r['analysis']['status'], 'supported_by_analytic_condition')
+        self.assertEqual(r['analysis']['status'], 'condition_verified')
         self.assertIn('amplitude is preserved', r['analysis']['boundary_behavior'])
         witness = subject.witness(Fraction(1), Fraction(2))
         self.assertEqual(witness['squared_before'], witness['squared_after'])
@@ -60,6 +60,10 @@ class AdversarialReviewTests(unittest.TestCase):
 
     def test_strict_grammar_rejects_semantic_additions(self):
         text = claim()
+        positive = text.replace('does not increase squared amplitude', 'keeps squared amplitude at or below its initial value')
+        self.assertEqual(subject.propose(text)['interpretation'], subject.propose(positive)['interpretation'])
+        self.assertEqual(subject.propose(text)['plan'], subject.propose(positive)['plan'])
+        self.assertEqual(subject.propose(subject.GRAMMAR)['interpretation'], subject.propose(positive)['interpretation'])
         bad = [text + ' It is also asymptotically stable.', 'Assume ' + text,
                text.replace('does not increase', 'strictly decreases'),
                text.replace('every real initial y', 'initial y = 0'),
@@ -120,7 +124,7 @@ class AdversarialReviewTests(unittest.TestCase):
 
     def test_extra_trusted_looking_outcome_rejected(self):
         p = subject.propose(claim())
-        p['analysis'] = {'status': 'supported_by_analytic_condition'}
+        p['analysis'] = {'status': 'condition_verified'}
         p['digest'] = subject.digest({k: v for k, v in p.items() if k != 'digest'})
         with self.assertRaises(ValidationError):
             subject.review(p, p['digest'])
@@ -132,15 +136,15 @@ class AdversarialReviewTests(unittest.TestCase):
         self.assertEqual(parent, before)
         self.assertEqual(revised['parent'], before)
         self.assertEqual(revised['parent_id'], before['review_id'])
-        self.assertEqual(parent['analysis']['status'], 'refuted_by_analytic_witness')
-        self.assertEqual(revised['analysis']['status'], 'supported_by_analytic_condition')
+        self.assertEqual(parent['analysis']['status'], 'exact_counterexample_identified')
+        self.assertEqual(revised['analysis']['status'], 'condition_verified')
         text = subject.markdown(revised)
         self.assertIn(claim(), text)
         self.assertIn(claim(hi='2'), text)
 
     def test_rehashed_forged_parent_rejected(self):
         parent = run()
-        parent['analysis']['status'] = 'supported_by_analytic_condition'
+        parent['analysis']['status'] = 'condition_verified'
         parent['analysis']['witness'] = None
         parent['review_id'] = subject.digest({k: v for k, v in parent.items() if k != 'review_id'})
         with self.assertRaises(ValidationError):
@@ -165,14 +169,14 @@ class AdversarialReviewTests(unittest.TestCase):
         for rate, upper, expected in cases:
             with self.subTest(rate=rate, upper=upper):
                 r = run(rate=rate, hi=upper)
-                self.assertEqual(r['analysis']['status'] == 'supported_by_analytic_condition', expected)
+                self.assertEqual(r['analysis']['status'] == 'condition_verified', expected)
 
     def test_analytic_oracle_does_not_reuse_expression_evaluator(self):
         # A locally passing grid must not be used to infer the global analytic result.
         with patch.object(subject.Expression, 'evaluate', return_value=True):
             r = run(search_max='1')
         self.assertEqual(r['grid']['counts']['violations'], 0)
-        self.assertEqual(r['analysis']['status'], 'refuted_by_analytic_witness')
+        self.assertEqual(r['analysis']['status'], 'exact_counterexample_identified')
 
     def test_false_counterexample_from_broken_evaluator_is_blocked(self):
         with patch.object(subject.Expression, 'evaluate', return_value=False):

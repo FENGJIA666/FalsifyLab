@@ -7,7 +7,7 @@ Developed on October 21-22, 2026, FalsifyLab brings exact counterexample search 
 ## Delivered achievements
 
 - A workflow from a written numerical claim to an exact counterexample.
-- A mathematical check that identifies a counterexample beyond the sampled search.
+- Complementary search and mathematical checks that produce exact, inspectable evidence.
 - Claim revisions connected to their complete evidence history.
 - Portable JSON and Markdown reports with source fingerprints and revision history.
 - Validation through 42 passing tests, independent arithmetic checks and browser report replay.

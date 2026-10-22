@@ -4,15 +4,15 @@
     "schema_version": 2,
     "compiler_version": "0.2.0",
     "source": {
-      "review": "bf6c9e2990196ebe91bec8f32a8d1595cb93a6efc2c2aed04cd9f0a978fd23e4",
-      "engine": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc"
+      "review": "9046fe5229e818a796a94831feee75c81e250e5bb9ae64880f724e99c7b01f17",
+      "engine": "454d35d6d711d80e37fd72c79ef4424c6e4551a0d5dc6c347d94286fecb60f82"
     },
-    "raw_claim": "Explicit Euler for y' = -rate*y with rate = 1 does not increase squared amplitude for every real initial y and every h in [0, 3].",
+    "raw_claim": "Explicit Euler for y' = -rate*y with rate = 1 keeps squared amplitude at or below its initial value for every real initial y and every h in [0, 3].",
     "interpretation": {
       "model": "y' = -rate*y",
       "method": "explicit Euler",
       "rate": "1",
-      "property": "one-step non-expansion of squared amplitude",
+      "property": "squared amplitude bounded by its initial value after one step",
       "quantifier": "for every real initial y and every h in the claim interval",
       "claim_domain": {
         "h_min": "0",
@@ -20,7 +20,7 @@
       },
       "units": "Dimensionless normalized model.",
       "assertion": "(1-(1)*h)**2 <= 1",
-      "reduction": "For nonzero y, divide by y²; for y = 0 the update remains zero.",
+      "reduction": "For y ≠ 0, divide by y²; for y = 0 the update remains zero.",
       "provenance": "Rate and interval are extracted directly from the claim."
     },
     "plan": {
@@ -38,16 +38,16 @@
       ],
       "budget": 10000,
       "method": "Exact rational grid plus theory-guided boundary probes within the search interval.",
-      "rationale": "Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides.",
+      "rationale": "Probe zero, zero amplification, the amplitude-preserving threshold 2/rate and its two sides.",
       "outside_claim_policy": "Record points beyond the claim interval as exploration."
     },
-    "digest": "7a089870e34d4d106127998919a99aa562a435d16441c08c762f3e3dc42ff5d3"
+    "digest": "5192531470c8db2eaeaa7312a63fd6b1d2541b130e1e5566b024ee51738e833e"
   },
-  "confirmed_digest": "7a089870e34d4d106127998919a99aa562a435d16441c08c762f3e3dc42ff5d3",
+  "confirmed_digest": "5192531470c8db2eaeaa7312a63fd6b1d2541b130e1e5566b024ee51738e833e",
   "parent": null,
   "parent_id": null,
   "grid": {
-    "status": "counterexample_found",
+    "status": "exact_counterexample_identified",
     "counts": {
       "evaluated": 13,
       "in_claim": 13,
@@ -161,17 +161,17 @@
         "holds": false
       }
     ],
-    "coverage": "Exact evaluations at the listed sample points within the claim interval."
+    "coverage": "Search h ∈ [0, 3], step 1/4; claim h ∈ [0, 3]."
   },
   "analysis": {
-    "status": "refuted_by_analytic_witness",
+    "status": "exact_counterexample_identified",
     "coverage": "entire confirmed closed claim interval",
     "domain": {
       "h_min": "0",
       "h_max": "3"
     },
     "condition": "0 <= rate*h <= 2",
-    "derivation": "y_next=(1-rate*h)y; y_next²-y²=rate*h*(rate*h-2)*y². With rate>0 and h>=0 this is nonpositive for all real y exactly when rate*h<=2.",
+    "derivation": "y_next=(1-rate*h)y; y_next²-y²=rate*h*(rate*h-2)*y². For rate>0 and h>=0, y_next²<=y² for all real y exactly when rate*h<=2.",
     "verification": "Independent integer comparison of a*c and 2*b*d for rate=a/b and upper h=c/d.",
     "threshold": "2",
     "witness": {
@@ -187,9 +187,9 @@
   },
   "evidence_summary": [
     "Exact rational witnesses connect each result to a concrete assignment.",
-    "Sampled search and analytical coverage are recorded alongside the confirmed claim.",
+    "Search coverage and mathematical analysis are recorded alongside the confirmed claim.",
     "Revisions preserve the original review and its evidence.",
     "Source fingerprints and saved plans support deterministic replay."
   ],
-  "review_id": "2ae1687745aef3b66b3b8522801e91fc75d48041e8d01ffc65ed19f68fffe715"
+  "review_id": "16c509505c6af95fdbbfac1fd6f96ac4d3de07f85f307f42e98026788999a52d"
 }

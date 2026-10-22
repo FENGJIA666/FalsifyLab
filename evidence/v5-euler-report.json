@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "engine_version": "0.2.0",
-  "engine_sha256": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc",
-  "spec_sha256": "8cd6f34a5b54bf1c5a002c2bb3971f104e95aa9bdc95912908c83f0fc1103e8b",
+  "engine_sha256": "454d35d6d711d80e37fd72c79ef4424c6e4551a0d5dc6c347d94286fecb60f82",
+  "spec_sha256": "29f1ac864b09670f64467efec923653ac93d54d7e1c2c16accad5f83c130c07d",
   "spec": {
-    "claim": "For the normalized decay equation y′ = −y with y = 1, one explicit Euler step never increases squared amplitude for any positive step h.",
+    "claim": "For the normalized decay equation y′ = −y with y = 1, one explicit Euler step keeps squared amplitude at or below its initial value for any positive step h.",
     "variables": [
       {
         "name": "h",
@@ -17,8 +17,8 @@
     "assertion": "(1-h)**2 <= 1",
     "confirmed": true
   },
-  "status": "counterexample_found",
-  "conclusion": "The confirmed universal assertion is false at an exact rational witness in this grid.",
+  "status": "exact_counterexample_identified",
+  "conclusion": "An exact rational counterexample identifies the assignment that changes the conclusion.",
   "counts": {
     "grid_points": 13,
     "excluded": 1,
@@ -207,7 +207,7 @@
     "Source fingerprints and the saved specification support deterministic replay."
   ],
   "next_steps": [
-    "Inspect the witness and assumptions before revising the claim.",
-    "Export the report to share the evidence and reproduce the search."
+    "Export and replay this evidence.",
+    "Share the exact assignments and reproducible search plan."
   ]
 }

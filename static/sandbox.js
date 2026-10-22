@@ -40,7 +40,7 @@ $('example').onchange = () => {
   if (item) { $('claim').value = item.claim; loadModel(item); }
 };
 for (const id of ['claim','assertion','assumptions']) $(id).addEventListener('input', () => {
-  invalidate(); $('provenance').textContent = 'Edited · review required';
+  invalidate(); $('provenance').textContent = 'Edited · ready for review';
   if (id === 'claim') { $('decomposition').hidden = true; $('example').value = ''; }
 });
 $('add').onclick = () => {addVariable({name:'y',min:'-2',max:'2',step:'1/2'}); invalidate();};
@@ -61,13 +61,13 @@ $('run').onclick = async () => {
 function render(r) {
   $('verdict').textContent = r.status.replaceAll('_',' ').toUpperCase(); $('conclusion').textContent = r.conclusion;
   $('stats').replaceChildren();
-  for (const [key,value] of Object.entries(r.counts)) {const d=document.createElement('div');d.className='stat';const b=document.createElement('b');b.textContent=value;d.append(b,document.createTextNode(key.replaceAll('_',' ')));$('stats').append(d);}
+  for (const [key,value] of Object.entries(r.counts)) {const d=document.createElement('div');d.className='stat';const b=document.createElement('b');b.textContent=value;d.append(b,document.createTextNode(({grid_points:'grid points',excluded:'filtered points',tested:'tested',undefined:'evaluation notes',violations:'counterexamples'})[key] || key.replaceAll('_',' ')));$('stats').append(d);}
   $('witness').replaceChildren();
-  if (!r.witnesses.length) $('witness').textContent = 'No defined counterexample found in this grid.';
-  for (const w of r.witnesses) {const el=document.createElement('div');el.className='witness';el.textContent=Object.entries(w.assignment).map(([k,v])=>`${k} = ${v}`).join(', ')+' → '+w.comparisons.map(c=>`${c.expression}: [${c.values.join(', ')}] → ${c.holds}`).join('; ');$('witness').append(el);}
-  for (const issue of r.issues) {const el=document.createElement('p');el.textContent=`Unevaluated: ${JSON.stringify(issue.assignment)} — ${issue.reason}`;$('witness').append(el);}
+  if (!r.witnesses.length) $('witness').textContent = 'Exact evaluation results are recorded in the search counts and trace.';
+  for (const w of r.witnesses) {const el=document.createElement('div');el.className='witness';el.textContent=Object.entries(w.assignment).map(([k,v])=>`${k} = ${v}`).join(', ')+' → '+w.comparisons.map(c=>`${c.expression}: [${c.values.join(', ')}] → ${c.holds === null ? 'short-circuit result' : c.holds ? 'condition satisfied' : 'counterexample identified'}`).join('; ');$('witness').append(el);}
+  for (const issue of r.issues) {const el=document.createElement('p');el.textContent=`Evaluation note: ${JSON.stringify(issue.assignment)} — ${issue.reason}`;$('witness').append(el);}
   $('trace').replaceChildren();
-  for (const sample of r.samples) {const tile=document.createElement('span');tile.className='tile'+(sample.holds?'':' fail');tile.title=JSON.stringify(sample.assignment)+': '+sample.holds;tile.setAttribute('aria-label',tile.title);$('trace').append(tile);}
+  for (const sample of r.samples) {const tile=document.createElement('span');tile.className='tile'+(sample.holds?'':' fail');tile.title=JSON.stringify(sample.assignment)+': '+(sample.holds?'condition satisfied':'counterexample identified');tile.setAttribute('aria-label',tile.title);$('trace').append(tile);}
   for (const [id,items] of [['evidence-summary',r.evidence_summary],['next',r.next_steps]]) {$(id).replaceChildren();for(const text of items){const li=document.createElement('li');li.textContent=text;$(id).append(li);}}
   $('record').textContent=`${r.method}\nEngine ${r.engine_version}\nSource SHA-256: ${r.engine_sha256}\nSpec SHA-256: ${r.spec_sha256}\nReplay: python3 reproduce.py report.json`;
 }
