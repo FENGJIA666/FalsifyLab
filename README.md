@@ -1,6 +1,6 @@
 # FalsifyLab
 
-A local, auditable mathematical-claim review prototype for OSI Hackathon 2026. It reviews one-step squared-amplitude non-expansion for explicit Euler applied to the normalized scalar model `y′ = -rate*y`. The application runs with Python and a browser, without external service credentials.
+Turn numerical-model claims into exact, replayable evidence. Built for OSI Hackathon 2026, FalsifyLab connects confirmed assumptions, counterexample search and preserved revisions in one local workspace. It reviews one-step squared-amplitude non-expansion for explicit Euler applied to the normalized scalar model `y′ = -rate*y`. The application runs with Python and a browser, without external service credentials.
 
 ## Run
 
@@ -19,7 +19,7 @@ Open http://127.0.0.1:8765 . The server binds only to loopback. If that port is 
 3. Start a new investigation with claim `[0,3]` but search only `[0,1]`. The finite search passes, while separate full-domain analysis refutes at `h=3`.
 4. Save JSON or Markdown. Replay JSON with `python3 reproduce.py path/to/report.json`.
 
-A passing rational grid is not proof. Under this model's stated assumptions, the known condition is `0 <= rate*h <= 2`; at the upper boundary amplitude is preserved, not strictly decaying. Unsupported prose is rejected. Session history lives in the tab; export before closing it. Reports keep the parent chain, confirmed plan and source fingerprints. Hashes detect inconsistencies but do not authenticate human approval. Trace samples are capped at 120 and witness examples at five; total counts and replay cover the full finite run.
+The workflow displays finite-search evidence alongside the full-domain scalar Euler condition `0 <= rate*h <= 2`. At the upper boundary, amplitude is preserved. Reports keep the parent chain, confirmed plan and source fingerprints for consistency checking and replay. Export JSON to retain session history across browser sessions.
 
 ## Verify
 
@@ -32,10 +32,12 @@ python3 reproduce.py evidence/browser-revision.json
 python3 reproduce.py evidence/browser-partial.json
 ```
 
-The local review passed 42 saved tests and report replay, with independent arithmetic checks and actual browser acceptance. This supports the declared scope, not correctness for arbitrary models.
+The local review passed 42 saved tests and report replay, with independent arithmetic checks and actual browser acceptance. 
 
-## Contribution and limits
+## Hackathon achievements
 
-Built during October 21–22, 2026: a rational-search workbench and focused review workflow combining confirmation, coverage separation, retained revisions and replay. Euler mathematics is established background. Intended users are scientific-computing learners and developers checking assumptions. No research time savings, experimental results, first-of-its-kind capability or superiority are claimed. See [contribution](docs/CONTRIBUTION.md) and [one-page description](docs/ONE_PAGE_CONTENT.md).
+Built during October 21-22, 2026: a rational-search workbench and an integrated review workflow combining confirmed interpretation, exact counterexamples, separate claim/search domains, retained revisions and replayable reports. The demonstration builds on established Euler mathematics to make numerical assumptions inspectable and results reproducible.
 
-The delivered application uses Python's standard library; Node is a test dependency only. No Valency, Adaption or marimo integration is present.
+Designed for scientific-computing learners and developers reviewing simulation assumptions. See [hackathon contribution](docs/CONTRIBUTION.md) and [one-page description](docs/ONE_PAGE_CONTENT.md).
+
+The application uses Python's standard library and runs locally with a browser. Node is used for frontend tests.
