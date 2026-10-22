@@ -49,7 +49,9 @@ class AdversarialReviewTests(unittest.TestCase):
         r = run(lo='2', hi='2', search_min='2', search_max='2')
         self.assertEqual(r['grid']['counts']['violations'], 0)
         self.assertEqual(r['analysis']['status'], 'supported_by_analytic_condition')
-        self.assertIn('not strict decay', r['analysis']['caveat'])
+        self.assertIn('amplitude is preserved', r['analysis']['boundary_behavior'])
+        witness = subject.witness(Fraction(1), Fraction(2))
+        self.assertEqual(witness['squared_before'], witness['squared_after'])
 
     def test_nonzero_witness_refutes_universal_initial_value(self):
         w = run(lo='3', hi='3')['analysis']['witness']

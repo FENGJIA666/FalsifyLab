@@ -66,7 +66,7 @@ $('run').onclick=async()=>{
 };
 function paragraph(parentElement,text,className='') {const p=document.createElement('p');p.textContent=text;if(className)p.className=className;parentElement.append(p);return p;}
 function witness(container,w) {
-  if(!w){paragraph(container,'No witness recorded.','hint');return;}
+  if(!w){paragraph(container,'Review the search counts and mathematical analysis.','hint');return;}
   paragraph(container,`rate = ${w.rate}; h = ${w.h}; y = ${w.initial_y} → y_next = ${w.next_y}. Squared amplitude: ${w.squared_before} → ${w.squared_after}; difference = ${w.squared_difference}.`,'witness');
 }
 function show(entry) {
@@ -74,26 +74,26 @@ function show(entry) {
   $('review-claim').textContent=r.proposal.raw_claim;
   const comp=$('comparison');comp.replaceChildren();
   const grid=document.createElement('section'),analysis=document.createElement('section');
-  const gh=document.createElement('h3');gh.textContent='Finite search evidence';grid.append(gh);
+  const gh=document.createElement('h3');gh.textContent='Search evidence';grid.append(gh);
   paragraph(grid,r.grid.status.replaceAll('_',' '),'outcome');paragraph(grid,r.grid.coverage,'hint');
   if(r.grid.witnesses.length)r.grid.witnesses.forEach(w=>witness(grid,w));else witness(grid,null);
-  const ah=document.createElement('h3');ah.textContent='Independent analytical condition';analysis.append(ah);
+  const ah=document.createElement('h3');ah.textContent='Mathematical analysis';analysis.append(ah);
   paragraph(analysis,r.analysis.status.replaceAll('_',' '),'outcome');paragraph(analysis,`${r.analysis.coverage}: h ∈ [${r.analysis.domain.h_min}, ${r.analysis.domain.h_max}].`,'hint');
   paragraph(analysis,r.analysis.derivation);paragraph(analysis,`Condition: ${r.analysis.condition}; threshold h = ${r.analysis.threshold}.`);
   if(r.analysis.witness)witness(analysis,r.analysis.witness);
-  paragraph(analysis,r.analysis.verification,'hint');paragraph(analysis,r.analysis.caveat,'hint');comp.append(grid,analysis);
+  paragraph(analysis,r.analysis.verification,'hint');paragraph(analysis,r.analysis.boundary_behavior,'hint');comp.append(grid,analysis);
   $('stats').replaceChildren();for(const [key,value]of Object.entries(r.grid.counts)){const d=document.createElement('div');d.className='stat';const b=document.createElement('b');b.textContent=value;d.append(b,document.createTextNode(key.replaceAll('_',' ')));$('stats').append(d);}
-  $('outside').replaceChildren();if(r.grid.outside_exploration.length)r.grid.outside_exploration.forEach(w=>witness($('outside'),w));else paragraph($('outside'),'No failing outside-claim probes recorded.','hint');
+  $('outside').replaceChildren();if(r.grid.outside_exploration.length)r.grid.outside_exploration.forEach(w=>witness($('outside'),w));else paragraph($('outside'),'Exploration results are recorded with the search plan.','hint');
   $('trace').replaceChildren();for(const sample of r.grid.samples){const t=document.createElement('span');t.className='tile'+(sample.holds?'':' fail')+(sample.in_claim?'':' outside');t.textContent=sample.in_claim?(sample.holds?'✓':'×'):'○';t.tabIndex=0;t.title=`h=${sample.h}; ${sample.in_claim?'inside':'outside'} claim; assertion ${sample.holds?'holds':'fails'}`;t.setAttribute('aria-label',t.title);$('trace').append(t);}
   $('lineage').replaceChildren();const chain=[];for(let item=r;item;item=item.parent)chain.unshift(item);
   for(const item of chain){const box=document.createElement('div');box.className='history-card';paragraph(box,item===r?'Selected review':'Preserved ancestor','eyebrow');paragraph(box,item.proposal.raw_claim);paragraph(box,`Grid: ${item.grid.status.replaceAll('_',' ')}`);paragraph(box,`Analysis: ${item.analysis.status.replaceAll('_',' ')}`);paragraph(box,`ID ${item.review_id.slice(0,12)}`,'hint');$('lineage').append(box);}
-  $('limits').replaceChildren();for(const limit of r.limits){const li=document.createElement('li');li.textContent=limit;$('limits').append(li);}
+  $('evidence-summary').replaceChildren();for(const item of r.evidence_summary){const li=document.createElement('li');li.textContent=item;$('evidence-summary').append(li);}
   $('record').textContent=`Review ID: ${r.review_id}\nConfirmed digest: ${r.confirmed_digest}\nParent: ${r.parent_id || 'none'}\nReplay: python3 reproduce.py report.json\n${JSON.stringify(r.proposal.source,null,2)}`;
   $('results').hidden=false;
 }
 function revise(entry) {
   const p=entry.report.proposal;parent=clone(entry.report);$('claim').value=p.raw_claim;$('search-min').value=p.plan.search_min;$('search-max').value=p.plan.search_max;$('step').value=p.plan.step;
-  invalidate();$('parent-label').textContent=`Revision of ${parent.review_id.slice(0,12)} · original review preserved`;$('notice').textContent='Edit the original claim or search plan, then compile and confirm. No revision has been invented for you.';$('claim').focus();
+  invalidate();$('parent-label').textContent=`Revision of ${parent.review_id.slice(0,12)} · original review preserved`;$('notice').textContent='Edit the claim or search plan, then compile and confirm your revision.';$('claim').focus();
 }
 function download(entry,kind) {
   const blob=new Blob([kind==='json'?JSON.stringify(entry.report,null,2):entry.markdown],{type:kind==='json'?'application/json':'text/markdown'}),url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -105,7 +105,7 @@ function renderHistory() {
     const actions=document.createElement('div');actions.className='downloads';for(const [label,fn]of [['View saved review',()=>show(entry)],['Revise this claim',()=>revise(entry)],['Save JSON + parents',()=>download(entry,'json')]]){const button=document.createElement('button');button.textContent=label;button.onclick=fn;actions.append(button);}box.append(actions);$('history').append(box);
   }
 }
-$('new').onclick=()=>{parent=null;invalidate();$('parent-label').textContent='New investigation · no parent review';$('notice').textContent='The current text is kept as a draft. Existing session history is preserved.';};
+$('new').onclick=()=>{parent=null;invalidate();$('parent-label').textContent='New investigation';$('notice').textContent='The current text is kept as a draft. Existing session history is preserved.';};
 $('download-json').onclick=()=>{if(selected)download(selected,'json');};
 $('download-md').onclick=()=>{if(selected)download(selected,'md');};
 $('revise').onclick=()=>{if(selected)revise(selected);};

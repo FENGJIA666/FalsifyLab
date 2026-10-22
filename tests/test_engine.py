@@ -22,7 +22,8 @@ class EngineTests(unittest.TestCase):
         s=case();s['variables'][0]['step']='1'
         r=search(s)
         self.assertEqual(r['status'],'no_counterexample_in_grid')
-        self.assertIn('not a proof',r['conclusion'])
+        self.assertEqual(r['conclusion'], 'The assertion holds at all tested grid points.')
+        self.assertEqual(r['counts']['tested'], 3)
 
     def test_euler_boundary_and_repair(self):
         s=case(1);r=search(s)

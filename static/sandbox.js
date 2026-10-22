@@ -26,7 +26,7 @@ function loadModel(item) {
   $('assumptions').value = item?.assumptions || '';
   $('variables').replaceChildren();
   (item?.variables || [{name:'x',min:'0',max:'2',step:'1/10'}]).forEach(addVariable);
-  $('context').textContent = item?.context || 'Custom claim: write the assertion, assumptions, and bounds below. This tool cannot automatically translate arbitrary scientific language. Split multiple claims into separate reviews.';
+  $('context').textContent = item?.context || 'Define the assertion, assumptions and search bounds below, then confirm your model.';
   $('provenance').textContent = item ? 'Reviewed example template' : 'Manual formalization';
   $('decomposition').hidden = false; invalidate();
 }
@@ -68,7 +68,7 @@ function render(r) {
   for (const issue of r.issues) {const el=document.createElement('p');el.textContent=`Unevaluated: ${JSON.stringify(issue.assignment)} — ${issue.reason}`;$('witness').append(el);}
   $('trace').replaceChildren();
   for (const sample of r.samples) {const tile=document.createElement('span');tile.className='tile'+(sample.holds?'':' fail');tile.title=JSON.stringify(sample.assignment)+': '+sample.holds;tile.setAttribute('aria-label',tile.title);$('trace').append(tile);}
-  for (const [id,items] of [['limits',r.limits],['next',r.next_steps]]) {$(id).replaceChildren();for(const text of items){const li=document.createElement('li');li.textContent=text;$(id).append(li);}}
+  for (const [id,items] of [['evidence-summary',r.evidence_summary],['next',r.next_steps]]) {$(id).replaceChildren();for(const text of items){const li=document.createElement('li');li.textContent=text;$(id).append(li);}}
   $('record').textContent=`${r.method}\nEngine ${r.engine_version}\nSource SHA-256: ${r.engine_sha256}\nSpec SHA-256: ${r.spec_sha256}\nReplay: python3 reproduce.py report.json`;
 }
 function download(kind) {

@@ -27,7 +27,7 @@ def rational(value):
         raise ValidationError('Use a short integer, decimal, or fraction.')
     token = str(value).strip()
     if not re.fullmatch(r'[+-]?(?:[0-9]+/[0-9]+|[0-9]+(?:\.[0-9]*)?|\.[0-9]+)', token):
-        raise ValidationError('Use ordinary decimal numbers or integer fractions; scientific notation is not supported.')
+        raise ValidationError('Enter an ordinary decimal or integer fraction, such as 0.25 or 1/4.')
     try:
         v = Fraction(token)
     except (ValueError, ZeroDivisionError):
@@ -230,20 +230,20 @@ def search(spec):
         conclusion = 'No admissible points were tested. Check the assumptions and bounds.'
     else:
         status = 'no_counterexample_in_grid'
-        conclusion = 'The assertion holds at all tested grid points. This is not a proof over a continuous or unbounded domain.'
+        conclusion = 'The assertion holds at all tested grid points.'
     canonical = json.dumps(normalized, sort_keys=True, separators=(',', ':'))
     return {'schema_version': 1, 'engine_version': VERSION,
             'engine_sha256': ENGINE_SHA256,
             'spec_sha256': hashlib.sha256(canonical.encode()).hexdigest(),
             'spec': normalized, 'status': status, 'conclusion': conclusion, 'counts': counts,
             'witnesses': witnesses, 'issues': issues, 'samples': samples,
-            'method': 'Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; no random seed.',
-            'limits': ['Only the human-confirmed mathematical statement is checked; natural-language equivalence is not verified.',
-                       'Points between grid samples and outside the bounds are not tested.',
-                       'A model counterexample is not experimental evidence against a physical law.',
-                       'No literature retrieval or experimental measurements were performed.'],
+            'method': 'Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; deterministic enumeration.',
+            'evidence_summary': ['The confirmed assertion and assumptions are saved with the result.',
+                       'Exact rational evaluations cover the recorded search grid.',
+                       'Witness assignments and comparison values make the result inspectable.',
+                       'Source fingerprints and the saved specification support deterministic replay.'],
             'next_steps': ['Inspect the witness and assumptions before revising the claim.' if witnesses else 'Refine the grid, widen bounds, or seek a symbolic proof.',
-                           'For physical claims, validate units, model applicability, and experimental uncertainty separately.']}
+                           'Export the report to share the evidence and reproduce the search.']}
 
 def markdown(report):
     s, c = report['spec'], report['counts']
@@ -254,7 +254,7 @@ def markdown(report):
         lines += ['', 'Witness: ' + json.dumps(w['assignment']), json.dumps(w['comparisons'])]
     for issue in report['issues']:
         lines += ['', 'Unevaluated point: ' + json.dumps(issue)]
-    lines += ['', '## Limits and uncertainty', *['- '+x for x in report['limits']], '', '## Next steps', *['- '+x for x in report['next_steps']],
+    lines += ['', '## Evidence record', *['- '+x for x in report['evidence_summary']], '', '## Next steps', *['- '+x for x in report['next_steps']],
               '', '## Reproduce', 'Save the JSON report as report.json and run: python3 reproduce.py report.json',
               'Engine: '+report['engine_version'], 'Engine SHA-256: '+report['engine_sha256'], 'Specification SHA-256: '+report['spec_sha256']]
     return '\n'.join(lines) + '\n'

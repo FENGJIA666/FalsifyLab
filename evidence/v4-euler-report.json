@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "engine_version": "0.2.0",
-  "engine_sha256": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c",
+  "engine_sha256": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc",
   "spec_sha256": "8cd6f34a5b54bf1c5a002c2bb3971f104e95aa9bdc95912908c83f0fc1103e8b",
   "spec": {
-    "claim": "For the normalized decay equation y\u2032 = \u2212y with y = 1, one explicit Euler step never increases squared amplitude for any positive step h.",
+    "claim": "For the normalized decay equation y′ = −y with y = 1, one explicit Euler step never increases squared amplitude for any positive step h.",
     "variables": [
       {
         "name": "h",
@@ -199,15 +199,15 @@
       "holds": false
     }
   ],
-  "method": "Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; no random seed.",
-  "limits": [
-    "Only the human-confirmed mathematical statement is checked; natural-language equivalence is not verified.",
-    "Points between grid samples and outside the bounds are not tested.",
-    "A model counterexample is not experimental evidence against a physical law.",
-    "No literature retrieval or experimental measurements were performed."
+  "method": "Exhaustive Cartesian rational grid; ascending variable order as supplied; all points visited; exact fractions; deterministic enumeration.",
+  "evidence_summary": [
+    "The confirmed assertion and assumptions are saved with the result.",
+    "Exact rational evaluations cover the recorded search grid.",
+    "Witness assignments and comparison values make the result inspectable.",
+    "Source fingerprints and the saved specification support deterministic replay."
   ],
   "next_steps": [
     "Inspect the witness and assumptions before revising the claim.",
-    "For physical claims, validate units, model applicability, and experimental uncertainty separately."
+    "Export the report to share the evidence and reproduce the search."
   ]
 }

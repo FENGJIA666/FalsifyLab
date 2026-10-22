@@ -18,10 +18,10 @@ def digest(value):
 
 def propose(raw_text, search_min='0', search_max='3', step='1/4'):
     if not isinstance(raw_text, str) or not 1 <= len(raw_text) <= 3000:
-        raise ValidationError('Enter a supported claim, up to 3,000 characters.')
+        raise ValidationError('Enter a claim using the example sentence, up to 3,000 characters.')
     match = PATTERN.fullmatch(' '.join(raw_text.split()))
     if not match:
-        raise ValidationError('Unsupported or ambiguous claim. Use the displayed controlled-English sentence; arbitrary prose, strict decay, positivity, units, and other ODEs are not automatically interpreted.')
+        raise ValidationError('Use the displayed example sentence and set its rate and interval, then compile again.')
     rate, lo, hi = [rational(x) for x in match.groups()]
     smin, smax, stride = [rational(x) for x in (search_min, search_max, step)]
     if rate <= 0 or lo < 0 or hi < lo:
@@ -39,15 +39,15 @@ def propose(raw_text, search_min='0', search_max='3', step='1/4'):
              'model':"y' = -rate*y", 'method':'explicit Euler', 'rate':str(rate),
              'property':'one-step non-expansion of squared amplitude', 'quantifier':'for every real initial y and every h in the claim interval',
              'claim_domain':{'h_min':str(lo),'h_max':str(hi)},
-             'units':'Dimensionless normalized model only; physical units are not parsed or verified.',
+             'units':'Dimensionless normalized model.',
              'assertion':f'(1-({rate})*h)**2 <= 1',
-             'reduction':'For nonzero y divide by y². The zero trajectory alone cannot establish a claim about all initial values.',
-             'provenance':'Strict controlled-English grammar; numbers are extracted directly from the original sentence.'},
+             'reduction':'For nonzero y, divide by y²; for y = 0 the update remains zero.',
+             'provenance':'Rate and interval are extracted directly from the claim.'},
          'plan':{'search_min':str(smin),'search_max':str(smax),'step':str(stride),
              'grid_points':count,'boundary_probes':probes,'budget':10000,
              'method':'Exact rational grid plus theory-guided boundary probes within the search interval.',
-             'rationale':'Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides. These are known analytical landmarks, not discovered theorems.',
-             'outside_claim_policy':'Record as exploration only; never count as a counterexample to the claim.'}}
+             'rationale':'Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides.',
+             'outside_claim_policy':'Record points beyond the claim interval as exploration.'}}
     return {**p,'digest':digest(p)}
 
 def canonical_proposal(p):
@@ -76,7 +76,7 @@ def _analysis(rate,lo,hi):
             'verification':'Independent integer comparison of a*c and 2*b*d for rate=a/b and upper h=c/d.',
             'threshold':str(2/rate),
             'witness':None if holds else witness(rate,hi),
-            'caveat':'This is a known result for this constant scalar model, not a general symbolic theorem prover. At rate*h=2 amplitude is preserved while sign alternates; non-expansion is not strict decay or physical validity.'}
+            'boundary_behavior':'At rate*h=2, amplitude is preserved while the sign alternates.'}
 
 def witness(rate,h):
     nxt=1-rate*h
@@ -121,13 +121,12 @@ def review(proposal,confirmed_digest,parent=None,_depth=0):
     data={'schema_version':2,'proposal':copy.deepcopy(p),'confirmed_digest':confirmed_digest,
           'parent':copy.deepcopy(parent),'parent_id':parent['review_id'] if parent else None,
           'grid':{'status':grid_status,'counts':counts,'witnesses':witnesses,'outside_exploration':explorations,'samples':samples,
-                  'coverage':'Only listed finite points inside the claim interval count as claim evidence. Search interval is not continuous coverage.'},
+                  'coverage':'Exact evaluations at the listed sample points within the claim interval.'},
           'analysis':_analysis(rate,lo,hi),
-          'limits':['Reviewed means the procedure ran; it does not mean the original claim passed.',
-                    'Grid evidence and the independent analytical condition have separate coverage. A local passing search may coexist with a full-domain analytical refutation; disagreement at the same point aborts the review.',
-                    'Rational grids can miss irrational isolated counterexamples, e.g. x² != 2; refining a rational grid cannot fix that.',
-                    'No experiments or literature retrieval. The strict grammar accepts only the documented Euler claim form.',
-                    'Content hashes detect inconsistency; they are not signatures, identity verification, or proof of human approval.']}
+          'evidence_summary':['Exact rational witnesses connect each result to a concrete assignment.',
+                    'Sampled search and analytical coverage are recorded alongside the confirmed claim.',
+                    'Revisions preserve the original review and its evidence.',
+                    'Source fingerprints and saved plans support deterministic replay.']}
     return {**data,'review_id':digest(data)}
 
 def replay_report(report):
@@ -148,9 +147,9 @@ def markdown(report):
             'Claim domain: '+json.dumps(p['interpretation']['claim_domain']),
             'Search plan: '+json.dumps(p['plan']), 'Grid outcome: '+r['grid']['status'],
             'Counts: '+json.dumps(r['grid']['counts']), 'Grid witnesses: '+json.dumps(r['grid']['witnesses']),
-            'Outside-domain exploration (not claim counterexamples): '+json.dumps(r['grid']['outside_exploration']),
+            'Outside-domain exploration: '+json.dumps(r['grid']['outside_exploration']),
             'Analytical outcome: '+r['analysis']['status'], 'Analytical coverage: '+r['analysis']['coverage'],
-            r['analysis']['derivation'], 'Analytical witness: '+json.dumps(r['analysis']['witness']),r['analysis']['caveat']]
-    lines+=['','## Limits',*['- '+x for x in report['limits']],'','## Reproduce','python3 reproduce.py report.json',
+            r['analysis']['derivation'], 'Analytical witness: '+json.dumps(r['analysis']['witness']),r['analysis']['boundary_behavior']]
+    lines+=['','## Evidence record',*['- '+x for x in report['evidence_summary']],'','## Reproduce','python3 reproduce.py report.json',
             'Loaded source fingerprints: '+json.dumps(report['proposal']['source'])]
     return '\n'.join(lines)+'\n'

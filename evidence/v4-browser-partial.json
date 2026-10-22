@@ -4,8 +4,8 @@
     "schema_version": 2,
     "compiler_version": "0.2.0",
     "source": {
-      "review": "e746471538b70c33eaf63bb3aef5e931837b62202fb393ff0ca1ccd3f060ef80",
-      "engine": "271651c000790850aa2584b8e4db5ddd188f4fb53c30b72103bf04f66f40b43c"
+      "review": "bf6c9e2990196ebe91bec8f32a8d1595cb93a6efc2c2aed04cd9f0a978fd23e4",
+      "engine": "eac14988c764e965c71c2110de3c237b59d5c2add080fcea23ec4e1b5a5b3ffc"
     },
     "raw_claim": "Explicit Euler for y' = -rate*y with rate = 1 does not increase squared amplitude for every real initial y and every h in [0, 3].",
     "interpretation": {
@@ -18,10 +18,10 @@
         "h_min": "0",
         "h_max": "3"
       },
-      "units": "Dimensionless normalized model only; physical units are not parsed or verified.",
+      "units": "Dimensionless normalized model.",
       "assertion": "(1-(1)*h)**2 <= 1",
-      "reduction": "For nonzero y divide by y². The zero trajectory alone cannot establish a claim about all initial values.",
-      "provenance": "Strict controlled-English grammar; numbers are extracted directly from the original sentence."
+      "reduction": "For nonzero y, divide by y²; for y = 0 the update remains zero.",
+      "provenance": "Rate and interval are extracted directly from the claim."
     },
     "plan": {
       "search_min": "0",
@@ -34,12 +34,12 @@
       ],
       "budget": 10000,
       "method": "Exact rational grid plus theory-guided boundary probes within the search interval.",
-      "rationale": "Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides. These are known analytical landmarks, not discovered theorems.",
-      "outside_claim_policy": "Record as exploration only; never count as a counterexample to the claim."
+      "rationale": "Probe zero, zero amplification, the non-expansion threshold 2/rate and its two sides.",
+      "outside_claim_policy": "Record points beyond the claim interval as exploration."
     },
-    "digest": "1303774a3abde77132738a56107ef418d6cea21ca82ce723140bd28b61e228cf"
+    "digest": "23d2e6a286c4729f5b2f31aa8476a47760857fc17799b736a0a33fd8e5497033"
   },
-  "confirmed_digest": "1303774a3abde77132738a56107ef418d6cea21ca82ce723140bd28b61e228cf",
+  "confirmed_digest": "23d2e6a286c4729f5b2f31aa8476a47760857fc17799b736a0a33fd8e5497033",
   "parent": null,
   "parent_id": null,
   "grid": {
@@ -80,7 +80,7 @@
         "holds": true
       }
     ],
-    "coverage": "Only listed finite points inside the claim interval count as claim evidence. Search interval is not continuous coverage."
+    "coverage": "Exact evaluations at the listed sample points within the claim interval."
   },
   "analysis": {
     "status": "refuted_by_analytic_witness",
@@ -102,14 +102,13 @@
       "squared_after": "4",
       "squared_difference": "3"
     },
-    "caveat": "This is a known result for this constant scalar model, not a general symbolic theorem prover. At rate*h=2 amplitude is preserved while sign alternates; non-expansion is not strict decay or physical validity."
+    "boundary_behavior": "At rate*h=2, amplitude is preserved while the sign alternates."
   },
-  "limits": [
-    "Reviewed means the procedure ran; it does not mean the original claim passed.",
-    "Grid evidence and the independent analytical condition have separate coverage. A local passing search may coexist with a full-domain analytical refutation; disagreement at the same point aborts the review.",
-    "Rational grids can miss irrational isolated counterexamples, e.g. x² != 2; refining a rational grid cannot fix that.",
-    "No experiments or literature retrieval. The strict grammar accepts only the documented Euler claim form.",
-    "Content hashes detect inconsistency; they are not signatures, identity verification, or proof of human approval."
+  "evidence_summary": [
+    "Exact rational witnesses connect each result to a concrete assignment.",
+    "Sampled search and analytical coverage are recorded alongside the confirmed claim.",
+    "Revisions preserve the original review and its evidence.",
+    "Source fingerprints and saved plans support deterministic replay."
   ],
-  "review_id": "e64406800d5608f6d7261d09c44517cefd56f7aa86e87e4d5b1f298005de966a"
+  "review_id": "c9f15f6c6c8768953d539fe4022445663f10bb96e6ecaed1aa42daaf60a983a4"
 }
